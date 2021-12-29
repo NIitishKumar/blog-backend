@@ -59,7 +59,7 @@ app.get("/allBlogs", (req, res) => {
   // res.send(allBlogs)
 });
 
-app.get("/hello", (req, res) => {
+app.get("/", (req, res) => {
   res.send("Hello");
 });
 
