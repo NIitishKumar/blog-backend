@@ -58,7 +58,22 @@ app.get("/allBlogs", (req, res) => {
   // console.log(allBlogs)
   // res.send(allBlogs)
 });
-console.log(process.env.PORT);
+
+app.get('/allusers', (req, res) => {
+  let allusers = []
+
+  MongoClient.connect(url, async (err,db) => {
+    let dbo = db.db('myFirstDatabase')
+    let data = dbo.collection('users').find()
+    data.forEach(user => {
+      allusers.push(user)
+    }, () => {
+      res.send(allusers)
+    })
+  })  
+
+})
+
 app.get("/", (req, res) => {
   res.send("Hello");
 });
