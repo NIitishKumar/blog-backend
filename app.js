@@ -58,7 +58,7 @@ app.get("/allBlogs", (req, res) => {
   // console.log(allBlogs)
   // res.send(allBlogs)
 });
-
+console.log(process.env.PORT);
 app.get("/", (req, res) => {
   res.send("Hello");
 });
@@ -174,6 +174,7 @@ app.post("/register", (req, res) => {
   //   }
 });
 
-app.listen(5000, () => {
+app.listen(process.env.PORT || 5000, () => {
+  // console.log(process.env.PORT);
   console.log("Port is running on 5000");
 });
