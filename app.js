@@ -94,6 +94,33 @@ app.post("/token_login", (req, res) => {
   }
 });
 
+app.post('/adminLogin', (req, res) => {
+  console.log(req.body);
+  const { email, password } = req.body
+  if (email.toLowerCase() === 'nitishkumar.ng746@gmail.com') {
+    if (password === 'Nitish1234@') {
+      let token = jwt.sign({ email, password }, "secrek@!#$@&*^$#dhjkfghjhgat")
+      // console.log(token);
+      res.status(200).send({
+        status: 1,
+        message: 'Successfully Logged in !',
+        token: token
+      })
+    }else {
+      res.send({
+        status: 0,
+        message : 'Unauthorized Access !'
+      })
+    }
+  } else {
+    res.send({
+      status: 0,
+      message : 'Unauthorized Access !'
+    })
+  }
+  
+})
+
 app.post("/login", async (req, res) => {
   const username = req.body.email;
   const password = req.body.password;
