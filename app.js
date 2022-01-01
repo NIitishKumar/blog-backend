@@ -107,6 +107,34 @@ app.post("/removeBlog", (req, res) => {
   });
 });
 
+app.post("/removeUser", (req, res) => {
+  // console.log("ssssssssssssssssssss", req.body);
+  User.remove();
+
+  MongoClient.connect(url, async function (err, db) {
+    var dbo = db.db("myFirstDatabase");
+
+    try {
+      dbo
+        .collection("users")
+        .deleteOne({ _id: ObjectId(`${req.body.id}`) }, (err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            res.status(200).send({
+              status: 1,
+              message: "Successfully Deleted !",
+            });
+            console.log("Successfully Deleted !");
+          }
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  });
+});
+
+
 app.post("/saveBlog", (req, res) => {
   console.log(req.body);
   const { title, description, token, userID } = req.body;
