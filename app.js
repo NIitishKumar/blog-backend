@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 var jwt = require("jsonwebtoken");
 var MongoClient = require("mongodb").MongoClient;
+var ObjectId = require("mongodb").ObjectID;
 
 const mongoose = require("mongoose");
 const encrypt = require("mongoose-encryption");
@@ -76,6 +77,34 @@ app.get('/allusers', (req, res) => {
 
 app.get("/", (req, res) => {
   res.send("Hello");
+});
+
+
+app.post("/removeBlog", (req, res) => {
+  // console.log("ssssssssssssssssssss", req.body);
+  User.remove();
+
+  MongoClient.connect(url, async function (err, db) {
+    var dbo = db.db("myFirstDatabase");
+
+    try {
+      dbo
+        .collection("blogs")
+        .deleteOne({ _id: ObjectId(`${req.body.id}`) }, (err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            res.status(200).send({
+              status: 1,
+              message: "Successfully Deleted !",
+            });
+            console.log("Successfully Deleted !");
+          }
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  });
 });
 
 app.post("/saveBlog", (req, res) => {
