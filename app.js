@@ -235,7 +235,7 @@ app.post("/register", (req, res) => {
 
 
   ///Check user already exist
-  User.findOne({ email: username }, function (err, foundUser) {
+  User.findOne({ email: req.body.email }, function (err, foundUser) {
     if (err) {
       console.log(err);
     } else {
