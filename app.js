@@ -242,7 +242,7 @@ app.post("/register", (req, res) => {
       if (foundUser) {
           res.status(200).send({
             status: 0,
-            message: "User Already registered ! !",
+            message: "User Already registered !",
             token: token,
             userId: foundUser._id.toString(),
           });
