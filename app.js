@@ -230,10 +230,8 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/register", (req, res) => {
+  
   const { name, email, password } = req.body;
-
-
-
   ///Check user already exist
   User.findOne({ email: req.body.email }, function (err, foundUser) {
     if (err) {
@@ -243,8 +241,6 @@ app.post("/register", (req, res) => {
           res.status(200).send({
             status: 0,
             message: "User Already registered !",
-            token: token,
-            userId: foundUser._id.toString(),
           });
         
       } else {
