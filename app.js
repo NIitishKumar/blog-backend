@@ -174,30 +174,56 @@ app.post("/login", async (req, res) => {
 
 app.post("/register", (req, res) => {
   const { name, email, password } = req.body;
-  const newUser = new User({
-    name: name,
-    email: email,
-    password: password,
-  });
-  newUser.save(function (err) {
+
+
+
+  ///Check user already exist
+  User.findOne({ email: username }, function (err, foundUser) {
     if (err) {
       console.log(err);
     } else {
-      const token = jwt.sign(
-        { name, email, password },
-        "secrek@!#$@&*^$#dhjkfghjhgat"
-      );
-      var decoded = jwt.verify(token, "secrek@!#$@&*^$#dhjkfghjhgat");
-      const { id } = decoded;
-      console.log(newUser);
-      res.status(200).send({
-        status: 1,
-        message: "Successfully Register !",
-        token: token,
-        userId: newUser._id.toString(),
-      });
+      if (foundUser) {
+          res.status(200).send({
+            status: 1,
+            message: "User Already registered ! !",
+            token: token,
+            userId: foundUser._id.toString(),
+          });
+        
+      } else {
+
+        const newUser = new User({
+          name: name,
+          email: email,
+          password: password,
+        });
+
+        newUser.save(function (err) {
+          if (err) {
+            console.log(err);
+          } else {
+            const token = jwt.sign(
+              { name, email, password },
+              "secrek@!#$@&*^$#dhjkfghjhgat"
+            );
+            var decoded = jwt.verify(token, "secrek@!#$@&*^$#dhjkfghjhgat");
+            const { id } = decoded;
+            console.log(newUser);
+            res.status(200).send({
+              status: 1,
+              message: "Successfully Register !",
+              token: token,
+              userId: newUser._id.toString(),
+            });
+          }
+        });
+      }
     }
   });
+
+
+
+  
 
   // app.get('/saveBlog', (req, res) => {
   //   res.send("Hello");
