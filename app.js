@@ -241,7 +241,7 @@ app.post("/register", (req, res) => {
     } else {
       if (foundUser) {
           res.status(200).send({
-            status: 1,
+            status: 0,
             message: "User Already registered ! !",
             token: token,
             userId: foundUser._id.toString(),
